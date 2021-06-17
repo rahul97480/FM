@@ -4,14 +4,19 @@ import Header from './components/ui/Header'
 import CharacterGrid from './components/characters/CharacterGrid'
 import Search from './components/ui/Search'
 import Pagination from './components/Pagination'
+import Form from './components/ui/Form';
 import './App.css'
+
 
 const App = () => {
   const [items, setItems] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [query, setQuery] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage] = useState(8)
+  const [itemsPerPage] = useState(8);
+  const[isAdd, setAdd] = useState (false)
+
+  
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -37,10 +42,17 @@ const App = () => {
   
   return (
     <div className='container'>
+      
       <Header />
+      {isAdd ? <Form /> : 
+      <>
+      <button onClick= {()=>setAdd(true)} className="btn">Add new caste</button>
       <Search getQuery={(q) => setQuery(q)} />
       <CharacterGrid isLoading={isLoading} items={currentItems} />
+      
       <Pagination itemsPerPage={itemsPerPage} totalItems={items.length} paginate={Paginate}/>
+      </>
+    }
     </div>
   )
 }
